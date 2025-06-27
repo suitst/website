@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-def index(request):
-    return HttpResponse("Hello world, you are at the svenska index.")
+def svenska_substantiv(request):
+    return render(request, 'svenska_substantiv.html')
+
+
 

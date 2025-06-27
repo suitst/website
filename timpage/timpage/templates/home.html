@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div>
+    <h1>
+        Welcome to my website!
+    </h1>
+    <h2>
+        Here you can find my various projects, blog, and CV
+    </h2>
+
+    <h2>
+        Practice your Swedish here!
+    </h2>
+    <form method="post" action="{% url 'svenska_substantiv' %}">
+        {% csrf_token %}
+        <button type="submit" class="custom-button">Svenska Substantiv Övning</button>
+    </form> 
+
+</div>
+
+
+{% endblock %}
