@@ -4,11 +4,29 @@ import random
 
 def substantiv_start_view(request):
     categories = Substantiv.objects.values_list('category', flat=True).distinct()
+    if request.method == 'POST':
+        if 'game_stats' not in request.session:
+                request.session['game_stats'] = {
+                    'correct': {
+                        'engelska': 0,
+                        'obestamt_singular': 0,
+                        'bestamt_singular': 0,
+                        'obestamt_plural': 0,
+                        'bestamt_plural': 0
+                    },
+                    'incorrect': {
+                        'engelska': 0,
+                        'obestamt_singular': 0,
+                        'bestamt_singular': 0,
+                        'obestamt_plural': 0,
+                        'bestamt_plural': 0
+                    }
+                }
+        return redirect('substantiv_game')
     return render(request, 'substantiv_start.html', {'categories': categories})
 
 
 def substantiv_game_view(request):
-
     if request.method == 'POST':
         category = request.POST.get('category', request.session.get('category', 'all'))
         request.session['category'] = category
@@ -45,7 +63,21 @@ def substantiv_results_view(request):
             'obestamt_plural_result': word.obestämt_plural == answers['obestamt_plural'],
             'bestamt_plural_result': word.bestämt_plural == answers['bestamt_plural'],
         }
-        return render(request, 'substantiv_results.html', {'word': word, 'answers': answers, 'results': results, 'category': category})
+
+        for field, result in results.items():
+            field_name = field.replace('_result', '')
+            if result:
+                request.session['game_stats']['correct'][field_name] += 1
+            else:
+                request.session['game_stats']['incorrect'][field_name] += 1
+        request.session.modified = True
+        print(request.session['game_stats'])
+        return render(request, 'substantiv_results.html', {'word': word, 
+                                                           'answers': answers, 
+                                                           'results': results,
+                                                           'game_stats': request.session['game_stats'], 
+                                                           'category': category
+                                                           })
     else:
         return redirect('substantiv_game')
     
@@ -66,4 +98,5 @@ def next_question_view(request):
 
 
 def quit_view(request):
-    return render(request, 'substantiv_summary.html')
+    game_stats = request.session.get('game_stats', {})
+    return render(request, 'substantiv_summary.html', {'game_stats': game_stats})

@@ -3,6 +3,21 @@
 {% block content %}
 
 <h1>Game Summary</h1>
-<!-- Add logic to display summary statistics -->
+<h2>Correct Answers</h2>
+    <ul>
+        <li>Engelska: {{ game_stats.correct.engelska }}</li>
+        <li>Obestämt Singular: {{ game_stats.correct.obestamt_singular }}</li>
+        <li>Bestämt Singular: {{ game_stats.correct.bestamt_singular }}</li>
+        <li>Obestämt Plural: {{ game_stats.correct.obestamt_plural }}</li>
+        <li>Bestämt Plural: {{ game_stats.correct.bestamt_plural }}</li>
+    </ul>
+    <h2>Incorrect Answers</h2>
+    <ul>
+        <li>Engelska: {{ game_stats.incorrect.engelska }}</li>
+        <li>Obestämt Singular: {{ game_stats.incorrect.obestamt_singular }}</li>
+        <li>Bestämt Singular: {{ game_stats.incorrect.bestamt_singular }}</li>
+        <li>Obestämt Plural: {{ game_stats.incorrect.obestamt_plural }}</li>
+        <li>Bestämt Plural: {{ game_stats.incorrect.bestamt_plural }}</li>
+    </ul>
 
 {% endblock %}
