@@ -99,4 +99,26 @@ def next_question_view(request):
 
 def quit_view(request):
     game_stats = request.session.get('game_stats', {})
+
+    # Calculate total attempts for each field
+    totals = {}
+    percentages = {'correct': {}, 'incorrect': {}}
+
+    for field in game_stats['correct'].keys():
+        correct = game_stats['correct'][field]
+        incorrect = game_stats['incorrect'][field]
+        totals[field] = correct + incorrect
+
+        # Calculate percentage
+        if totals[field] > 0:
+            percentages['correct'][field] = (correct / totals[field]) * 100
+            percentages['incorrect'][field] = (incorrect / totals[field]) * 100
+        else:
+            percentages['correct'][field] = 0
+            percentages['incorrect'][field] = 0
+
+    # Add totals and percentages to game_stats for use in the template
+    game_stats['totals'] = totals
+    game_stats['percentages'] = percentages
+
     return render(request, 'substantiv_summary.html', {'game_stats': game_stats})

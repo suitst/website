@@ -1,23 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
 {% block content %}
 
 <h1>Game Summary</h1>
-<h2>Correct Answers</h2>
+<h2>Performance Breakdown</h2>
     <ul>
-        <li>Engelska: {{ game_stats.correct.engelska }}</li>
-        <li>Obestämt Singular: {{ game_stats.correct.obestamt_singular }}</li>
-        <li>Bestämt Singular: {{ game_stats.correct.bestamt_singular }}</li>
-        <li>Obestämt Plural: {{ game_stats.correct.obestamt_plural }}</li>
-        <li>Bestämt Plural: {{ game_stats.correct.bestamt_plural }}</li>
-    </ul>
-    <h2>Incorrect Answers</h2>
-    <ul>
-        <li>Engelska: {{ game_stats.incorrect.engelska }}</li>
-        <li>Obestämt Singular: {{ game_stats.incorrect.obestamt_singular }}</li>
-        <li>Bestämt Singular: {{ game_stats.incorrect.bestamt_singular }}</li>
-        <li>Obestämt Plural: {{ game_stats.incorrect.obestamt_plural }}</li>
-        <li>Bestämt Plural: {{ game_stats.incorrect.bestamt_plural }}</li>
+        {% for field in game_stats.correct.keys %}
+            <li>
+                {{ field|title }}:
+                {{ game_stats.percentages.correct|get_item:field|floatformat:2 }}% correct
+                ({{ game_stats.correct|get_item:field }} correct /
+                {{ game_stats.incorrect|get_item:field }} incorrect)
+            </li>
+        {% endfor %}
     </ul>
 
 {% endblock %}
