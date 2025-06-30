@@ -63,7 +63,11 @@ def substantiv_results_view(request):
             'obestamt_plural_result': word.obestämt_plural == answers['obestamt_plural'],
             'bestamt_plural_result': word.bestämt_plural == answers['bestamt_plural'],
         }
-
+        if 'game_stats' not in request.session:
+            request.session['game_stats'] = {
+                'correct': {field: 0 for field in ['engelska', 'obestamt_singular', 'bestamt_singular', 'obestamt_plural', 'bestamt_plural']},
+                'incorrect': {field: 0 for field in ['engelska', 'obestamt_singular', 'bestamt_singular', 'obestamt_plural', 'bestamt_plural']}
+            }
         for field, result in results.items():
             field_name = field.replace('_result', '')
             if result:
@@ -99,6 +103,10 @@ def next_question_view(request):
 
 def quit_view(request):
     game_stats = request.session.get('game_stats', {})
+
+    # Clear the session data
+    if 'game_stats' in request.session:
+        del request.session['game_stats']
 
     # Calculate total attempts for each field
     totals = {}
