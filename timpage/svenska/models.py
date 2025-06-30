@@ -15,7 +15,7 @@ class Substantiv(models.Model):
     obestämt_singular = models.CharField()
     bestämt_singular = models.CharField()
     obestämt_plural = models.CharField()
-    betsämt_plural = models.CharField()
+    bestämt_plural = models.CharField()
 
     def __str__(self):
         return self.ord

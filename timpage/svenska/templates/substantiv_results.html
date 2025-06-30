@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<h1>Results</h1>
+<p>Ord: {{ word.ord }}</p>
+<p>På Engelska: {{ answers.engelska }} {% if results.engelska_result %}✅{% else %}❌{{ word.engelska }}{% endif %}</p>
+<p>Obestämt Singular: {{ answers.obestamt_singular }} {% if results.obestamt_singular_result %}✅{% else %}❌{{ word.obestämt_singular }}{% endif %}</p>
+<p>Bestämt Singular: {{ answers.bestamt_singular }} {% if results.bestamt_singular_result %}✅{% else %}❌{{ word.bestämt_singular }}{% endif %}</p>
+<p>Obestämt Plural: {{ answers.obestamt_plural }} {% if results.obestamt_plural_result %}✅{% else %}❌{{ word.obestämt_plural }}{% endif %}</p>
+<p>Bestämt Plural: {{ answers.bestamt_plural }} {% if results.bestamt_plural_result %}✅{% else %}❌{{ word.bestämt_plural }}{% endif %}</p>
+<form method="post" action="{% url 'next_question_view' %}">
+    {% csrf_token %}
+    <button type="submit">Next Question</button>
+</form>
+<form method="post" action="{% url 'substantiv_summary' %}">
+    {% csrf_token %}
+    <button type="submit">Quit</button>
+</form>
+
+{% endblock %}
