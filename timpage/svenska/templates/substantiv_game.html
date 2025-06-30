@@ -2,11 +2,12 @@
 {% load static %}
 {% block content %}
 
-<form method="post" action="{% url 'substantiv_submit_view' %}">
+<form method="post" action="{% url 'substantiv_results' %}">
     {% csrf_token %}
     <h1>Question {{word.number}}</h1>
     <h2>Ord: {{ word.ord }}</h2>
-    <p>Category: {{ word.category }}</p>
+    <p>Kategori: {{ word.category }}</p>
+    <input type="hidden" name="category" value="{{ word.category }}">
     <p>På Engelska: <input type="text" name="engelska"></p>
     <p>Obestämt Singular: <input type="text" name="obestamt_singular"></p>
     <p>Bestämt Singular: <input type="text" name="bestamt_singular"></p>

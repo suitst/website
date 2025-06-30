@@ -1,32 +1,34 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .models import Substantiv
 import random
 
 def substantiv_start_view(request):
-    return render(request, 'substantiv_start.html')
+    categories = Substantiv.objects.values_list('category', flat=True).distinct()
+    return render(request, 'substantiv_start.html', {'categories': categories})
 
 
 def substantiv_game_view(request):
-    categories = Substantiv.objects.values_list('category', flat=True).distinct()
+
     if request.method == 'POST':
-        if 'Category' in request.POST:
-            category = request.POST.get('Category')
-            if category == 'all':
-                words = Substantiv.objects.all()
-            else:
-                words = Substantiv.objects.filter(category=category)
-            word = random.choice(words)
-            request.session['current_word_num'] = word.number
-            return render(request, 'substantiv_game.html', {'word': word, 'categories': categories})
-    else:
-        words = Substantiv.objects.all()
+        category = request.POST.get('category', request.session.get('category', 'all'))
+        request.session['category'] = category
+        print(category)
+        if category == 'all':
+            words = Substantiv.objects.all()
+        else:
+            words = Substantiv.objects.filter(category=category)
         word = random.choice(words)
         request.session['current_word_num'] = word.number
-        return render(request, 'substantiv_game.html', {'word': word, 'categories': categories})
+        return render(request, 'substantiv_game.html', {'word': word, 'category': category})
+    else:
+        return redirect('substantiv_game')
 
 
-def substantiv_submit_view(request):
+
+def substantiv_results_view(request):
     if request.method == 'POST':
+        category = request.session.get('category')
+        print(category)
         word_number = request.session.get('current_word_num')
         word = Substantiv.objects.get(number=word_number)
         answers = {
@@ -43,11 +45,24 @@ def substantiv_submit_view(request):
             'obestamt_plural_result': word.obestämt_plural == answers['obestamt_plural'],
             'bestamt_plural_result': word.bestämt_plural == answers['bestamt_plural'],
         }
-        return render(request, 'substantiv_results.html', {'word': word, 'answers': answers, 'results': results})
+        return render(request, 'substantiv_results.html', {'word': word, 'answers': answers, 'results': results, 'category': category})
+    else:
+        return redirect('substantiv_game')
     
 
 def next_question_view(request):
-    return redirect('substantiv_game_view')
+    if request.method == 'POST':
+        # Retrieve the category from the POST data
+        category = request.POST.get('category')
+
+        # Store the category in the session to ensure it is retained
+        request.session['category'] = category
+
+        # Redirect to the game view
+        return redirect('substantiv_game')
+
+    # Redirect to the start page if the request method is not POST
+    return redirect('substantiv_start')
 
 
 def quit_view(request):

@@ -2,8 +2,20 @@
 {% load static %}
 {% block content %}
 
-<h2>
-    Svenska Substantiv Övning
-</h2>
+<h1>Öva din svenska</h1>
+
+<h2>Svenska Substantiv Övning</h2>
+
+<form action="{% url 'substantiv_game' %}" method="post">
+    {% csrf_token %}
+    <label for="category">Välj en Kategori:</label>
+    <select name="category" id="category">
+        <option value="all">Alla Katagorier</option>
+        {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Börja Spel!</button>
+</form>
 
 {% endblock %}

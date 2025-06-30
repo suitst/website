@@ -9,10 +9,13 @@
 <p>Bestämt Singular: {{ answers.bestamt_singular }} {% if results.bestamt_singular_result %}✅{% else %}❌{{ word.bestämt_singular }}{% endif %}</p>
 <p>Obestämt Plural: {{ answers.obestamt_plural }} {% if results.obestamt_plural_result %}✅{% else %}❌{{ word.obestämt_plural }}{% endif %}</p>
 <p>Bestämt Plural: {{ answers.bestamt_plural }} {% if results.bestamt_plural_result %}✅{% else %}❌{{ word.bestämt_plural }}{% endif %}</p>
-<form method="post" action="{% url 'next_question_view' %}">
+
+<form method="post" action="{% url 'substantiv_game' %}">
     {% csrf_token %}
+    <input type="hidden" name="category" value="{{ category }}">
     <button type="submit">Next Question</button>
 </form>
+
 <form method="post" action="{% url 'substantiv_summary' %}">
     {% csrf_token %}
     <button type="submit">Quit</button>
