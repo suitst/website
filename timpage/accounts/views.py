@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout, get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -50,3 +51,28 @@ def logout_view(request):
 def profile_view(request):
     user = request.user
     return render(request, 'profile.html', {'user': user})
+
+
+def reset_stats_view(request):
+    if request.method == 'POST':
+        user = request.user
+
+        stat_fields = [
+            'total_answered',
+            'engelska_correct', 'engelska_incorrect',
+            'obestamt_singular_correct', 'obestamt_singular_incorrect',
+            'bestamt_singular_correct', 'bestamt_singular_incorrect',
+            'obestamt_plural_correct', 'obestamt_plural_incorrect',
+            'bestamt_plural_correct', 'bestamt_plural_incorrect'
+        ]
+
+        for field in stat_fields:
+            setattr(user, field, 0)
+
+        user.save()
+
+        messages.success(request, 'Your statistics have been reset successfully!')
+
+        return redirect('profile')
+    
+    return redirect('profile')

@@ -14,6 +14,17 @@
         <li>Obestämt Plural: {{ user.obestamt_plural_correct }} correct, {{ user.obestamt_plural_incorrect }} incorrect</li>
         <li>Bestämt Plural: {{ user.bestamt_plural_correct }} correct, {{ user.bestamt_plural_incorrect }} incorrect</li>
     </ul>
+    <form method="post" action="{% url 'reset_stats' %}" onsubmit="return confirm('Are you sure you want to reset all your statistics? This action cannot be undone.');">
+        {% csrf_token %}
+        <button type="submit">Reset All Statistics</button>
+    </form>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 </body>
 
 {% endblock %}
