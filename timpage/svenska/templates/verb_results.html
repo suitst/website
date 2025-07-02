@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<h1>Results</h1>
+<p>Ord: {{ word.ord }}</p>
+<p>På Engelska: {{ answers.engelska }} {% if results.engelska_result %}✅{% else %}❌{{ word.engelska }}{% endif %}</p>
+<p>Infinitiv: {{ answers.infinitiv }} {% if results.infinitiv_result %}✅{% else %}❌{{ word.infinitiv }}{% endif %}</p>
+<p>Presens: {{ answers.presens }} {% if results.presens_result %}✅{% else %}❌{{ word.presens }}{% endif %}</p>
+<p>Imperativ: {{ answers.imperativ }} {% if results.imperativ_result %}✅{% else %}❌{{ word.imperativ }}{% endif %}</p>
+<p>Preteritum: {{ answers.preteritum }} {% if results.preteritum_result %}✅{% else %}❌{{ word.preteritum }}{% endif %}</p>
+<p>Perfekt: {{ answers.perfekt }} {% if results.perfekt_result %}✅{% else %}❌{{ word.perfekt }}{% endif %}</p>
+<p>Pluskvamperfekt: {{ answers.pluskvamperfekt }} {% if results.pluskvamperfekt_result %}✅{% else %}❌{{ word.pluskvamperfekt }}{% endif %}</p>
+
+<form method="post" action="{% url 'verb_game' %}">
+    {% csrf_token %}
+    <button type="submit">Next Question</button>
+</form>
+
+<form method="post" action="{% url 'verb_summary' %}">
+    {% csrf_token %}
+    <button type="submit">Quit</button>
+</form>
+
+{% endblock %}

@@ -1,9 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from svenska.models import Substantiv, Verb
 
 
 class CustomUser(AbstractUser):
     total_answered = models.IntegerField(default=0)
+
+    total_substantiv_answered = models.IntegerField(default=0)
+    total_verb_answered = models.IntegerField(default=0)
 
     engelska_correct = models.IntegerField(default=0)
     engelska_incorrect = models.IntegerField(default=0)
@@ -36,18 +40,25 @@ class CustomUser(AbstractUser):
         verbose_name='user permissions'
     )
 
-    def update_total(self):
+    def update_total(self, word):
         self.total_answered += 1
+        if type(word) == Substantiv:
+            self.total_substantiv_answered += 1
+        elif type(word) == Verb:
+            self.total_verb_answered += 1
         self.save()
+
     
     def update_record(self, result, field):
         field_mapping = {
-        'engelska_result': ('engelska_correct', 'engelska_incorrect'),
-        'obestamt_singular_result': ('obestamt_singular_correct', 'obestamt_singular_incorrect'),
-        'bestamt_singular_result': ('bestamt_singular_correct', 'bestamt_singular_incorrect'),
-        'obestamt_plural_result': ('obestamt_plural_correct', 'obestamt_plural_incorrect'),
-        'bestamt_plural_result': ('bestamt_plural_correct', 'bestamt_plural_incorrect')
-    }
+            'engelska_result': ('engelska_correct', 'engelska_incorrect'),
+            'infinitiv_result': ('infinitiv_correct', 'infinitiv_incorrect'),
+            'presens_result': ('presens_correct', 'presens_incorrect'),
+            'imperativ_result': ('imperativ_correct', 'imperativ_incorrect'),
+            'preteritum_result': ('preteritum_correct', 'preteritum_incorrect'),
+            'perfekt_result': ('perfekt_correct', 'perfekt_incorrect'),
+            'pluskvamperfekt_result': ('pluskvamperfekt_correct', 'pluskvamperfekt_incorrect')
+        }
         print(f'field: {field}')
         if field in field_mapping:
             correct_field, incorrect_field = field_mapping[field]

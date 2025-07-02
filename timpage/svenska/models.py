@@ -19,3 +19,18 @@ class Substantiv(models.Model):
 
     def __str__(self):
         return self.ord
+    
+
+class Verb(models.Model):
+    number = models.IntegerField()
+    ord = models.CharField()
+    engelska = models.CharField()
+    infinitiv = models.CharField()
+    presens = models.CharField()
+    imperativ = models.CharField()
+    preteritum = models.CharField()
+    perfekt = models.CharField()
+    pluskvamperfekt = models.CharField()
+
+    def __str__(self):
+        return self.ord
