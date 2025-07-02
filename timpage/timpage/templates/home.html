@@ -13,10 +13,7 @@
     <h2>
         Practice your Swedish here!
     </h2>
-    <form method="post" action="{% url 'substantiv_start' %}">
-        {% csrf_token %}
-        <button type="submit" class="custom-button">Svenska Substantiv Övning</button>
-    </form> 
+    <a href="{% url 'substantiv_start' %}"> <button>Öva din Svenska</button></a>
 
 </div>
 
