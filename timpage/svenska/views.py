@@ -5,7 +5,7 @@ import random
 
 
 @login_required
-def substantiv_start_view(request):
+def game_start_view(request):
     categories = Substantiv.objects.values_list('category', flat=True).distinct()
     if request.method == 'POST':
         if 'game_stats' not in request.session:
@@ -26,7 +26,7 @@ def substantiv_start_view(request):
                     }
                 }
         return redirect('substantiv_game')
-    return render(request, 'substantiv_start.html', {'categories': categories})
+    return render(request, 'game_start.html', {'categories': categories})
 
 
 @login_required
@@ -113,7 +113,7 @@ def next_question_view(request):
         return redirect('substantiv_game')
 
     # Redirect to the start page if the request method is not POST
-    return redirect('substantiv_start')
+    return redirect('game_start')
 
 
 @login_required
