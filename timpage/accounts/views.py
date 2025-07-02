@@ -1,11 +1,19 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+User = get_user_model()
+
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ('username', 'email', 'first_name', 'last_name')
 
 
 def signup_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -14,7 +22,7 @@ def signup_view(request):
             login(request, user)
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
 
@@ -37,3 +45,8 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return render(request, 'logout.html')
+
+
+def profile_view(request):
+    user = request.user
+    return render(request, 'profile.html', {'user': user})

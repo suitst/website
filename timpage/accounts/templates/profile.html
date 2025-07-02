@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<body>
+    <h1>{{ user.username }}</h1>
+    <h1>Performance Stats</h2>
+    <h2>Total Questions Answered: {{ user.total_answered }}</h2>
+    <h3>Performance by Question Type</h3>
+    <ul>
+        <li>Engelska: {{ user.engelska_correct }} correct, {{ user.engelska_incorrect }} incorrect</li>
+        <li>Obestämt Singular: {{ user.obestamt_singular_correct }} correct, {{ user.obestamt_singular_incorrect }} incorrect</li>
+        <li>Bestämt Singular: {{ user.bestamt_singular_correct }} correct, {{ user.bestamt_singular_incorrect }} incorrect</li>
+        <li>Obestämt Plural: {{ user.obestamt_plural_correct }} correct, {{ user.obestamt_plural_incorrect }} incorrect</li>
+        <li>Bestämt Plural: {{ user.bestamt_plural_correct }} correct, {{ user.bestamt_plural_incorrect }} incorrect</li>
+    </ul>
+</body>
+
+{% endblock %}

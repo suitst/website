@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 from .models import Substantiv
 import random
 
+
+@login_required
 def substantiv_start_view(request):
     categories = Substantiv.objects.values_list('category', flat=True).distinct()
     if request.method == 'POST':
@@ -26,6 +29,7 @@ def substantiv_start_view(request):
     return render(request, 'substantiv_start.html', {'categories': categories})
 
 
+@login_required
 def substantiv_game_view(request):
     if request.method == 'POST':
         category = request.POST.get('category', request.session.get('category', 'all'))
@@ -42,9 +46,10 @@ def substantiv_game_view(request):
         return redirect('substantiv_game')
 
 
-
+@login_required
 def substantiv_results_view(request):
     if request.method == 'POST':
+        user = request.user
         category = request.session.get('category')
         print(category)
         word_number = request.session.get('current_word_num')
@@ -68,12 +73,21 @@ def substantiv_results_view(request):
                 'correct': {field: 0 for field in ['engelska', 'obestamt_singular', 'bestamt_singular', 'obestamt_plural', 'bestamt_plural']},
                 'incorrect': {field: 0 for field in ['engelska', 'obestamt_singular', 'bestamt_singular', 'obestamt_plural', 'bestamt_plural']}
             }
+        
+        user.update_total()
+
         for field, result in results.items():
             field_name = field.replace('_result', '')
+
+            user.update_record(result, field)
+
             if result:
                 request.session['game_stats']['correct'][field_name] += 1
             else:
                 request.session['game_stats']['incorrect'][field_name] += 1
+        
+        user.save()
+        
         request.session.modified = True
         print(request.session['game_stats'])
         return render(request, 'substantiv_results.html', {'word': word, 
@@ -86,6 +100,7 @@ def substantiv_results_view(request):
         return redirect('substantiv_game')
     
 
+@login_required
 def next_question_view(request):
     if request.method == 'POST':
         # Retrieve the category from the POST data
@@ -101,6 +116,7 @@ def next_question_view(request):
     return redirect('substantiv_start')
 
 
+@login_required
 def quit_view(request):
     game_stats = request.session.get('game_stats', {})
 
