@@ -2,20 +2,20 @@
 {% load static %}
 {% block content %}
 
-<div>
-    <h1>
-        Welcome to my website!
-    </h1>
-    <h2>
-        Here you can find my various projects, blog, and CV
-    </h2>
+<div class="home-hero text-center py-5">
+    <div class="container">
+        <h1 class="display-4 mb-4 fade-in">Welcome to my website!</h1>
+        <h2 class="mb-5 fade-in" style="animation-delay: 0.2s">Here you can find my various projects, blog, and CV</h2>
 
-    <h2>
-        Practice your Swedish here!
-    </h2>
-    <a href="{% url 'game_start' %}"> <button class="btn btn-secondary">Öva din Svenska</button></a>
-
+        <div class="card fade-in mx-auto" style="max-width: 600px; animation-delay: 0.4s">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Practice your Swedish here!</h2>
+                <a href="{% url 'game_start' %}" class="d-block">
+                    <button class="btn btn-secondary btn-lg px-4 py-2">Öva din Svenska</button>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 {% endblock %}
