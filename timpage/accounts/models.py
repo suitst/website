@@ -24,6 +24,24 @@ class CustomUser(AbstractUser):
     bestamt_plural_correct = models.IntegerField(default=0)
     bestamt_plural_incorrect = models.IntegerField(default=0)
 
+    infinitv_correct = models.IntegerField(default=0)
+    infinitiv_incorrect = models.IntegerField(default=0)
+
+    presens_correct = models.IntegerField(default=0)
+    presens_incorrect = models.IntegerField(default=0)
+
+    imperativ_correct = models.IntegerField(default=0)
+    imperativ_incorrect = models.IntegerField(default=0)
+
+    preteritum_correct = models.IntegerField(default=0)
+    preteritum_incorrect = models.IntegerField(default=0)
+
+    perfekt_correct = models.IntegerField(default=0)
+    perfekt_incorrect = models.IntegerField(default=0)
+
+    pluskvamperfekt_correct = models.IntegerField(default=0)
+    pluskvamperfekt_incorrect = models.IntegerField(default=0)
+
     groups = models.ManyToManyField(
         'auth.Group',
         related_name='custom_user_set',

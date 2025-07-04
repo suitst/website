@@ -2,10 +2,9 @@
 {% load static %}
 {% block content %}
 
-<h1>Öva din svenska</h1>
+<h1>Öva din svenska!</h1>
 
 <h2>Svenska Substantiv Övning</h2>
-
 <form action="{% url 'substantiv_game' %}" method="post">
     {% csrf_token %}
     <label for="category">Välj en Kategori:</label>
@@ -15,6 +14,12 @@
             <option value="{{ category }}">{{ category }}</option>
         {% endfor %}
     </select>
+    <button class="btn btn-secondary", type="submit">Börja Spel!</button>
+</form>
+
+<h2>Svenska Verb Övning</h2>
+<form action="{% url 'verb_game' %}" method="post">
+    {% csrf_token %}
     <button class="btn btn-secondary", type="submit">Börja Spel!</button>
 </form>
 
