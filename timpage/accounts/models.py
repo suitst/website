@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
     bestamt_plural_correct = models.IntegerField(default=0)
     bestamt_plural_incorrect = models.IntegerField(default=0)
 
-    infinitv_correct = models.IntegerField(default=0)
+    infinitiv_correct = models.IntegerField(default=0)
     infinitiv_incorrect = models.IntegerField(default=0)
 
     presens_correct = models.IntegerField(default=0)
