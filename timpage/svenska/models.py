@@ -12,10 +12,10 @@ class Substantiv(models.Model):
     category = models.CharField()
     ord = models.CharField()
     engelska = models.CharField()
-    obestämt_singular = models.CharField()
-    bestämt_singular = models.CharField()
-    obestämt_plural = models.CharField()
-    bestämt_plural = models.CharField()
+    obestamt_singular = models.CharField()
+    bestamt_singular = models.CharField()
+    obestamt_plural = models.CharField()
+    bestamt_plural = models.CharField()
 
     def __str__(self):
         return self.ord
