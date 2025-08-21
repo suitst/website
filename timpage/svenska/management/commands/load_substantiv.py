@@ -6,9 +6,7 @@ from svenska.models import Substantiv
 
 ALREDY_LOADED_ERROR_MESSAGE = """
 If you need to reload the question data from the CSV file,
-first delete the db.sqlite3 file to destroy the database.
-Then, run `python manage.py migrate` for a new empty
-database with tables
+first run clear_substantiv.py to clear the Substantiv database, or run clear_verb.py to clear the Verb database.
 """
 
 

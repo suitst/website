@@ -59,11 +59,18 @@ def reset_stats_view(request):
 
         stat_fields = [
             'total_answered',
+            'total_substantiv_answered', 'total_verb_answered',
             'engelska_correct', 'engelska_incorrect',
             'obestamt_singular_correct', 'obestamt_singular_incorrect',
             'bestamt_singular_correct', 'bestamt_singular_incorrect',
             'obestamt_plural_correct', 'obestamt_plural_incorrect',
-            'bestamt_plural_correct', 'bestamt_plural_incorrect'
+            'bestamt_plural_correct', 'bestamt_plural_incorrect',
+            'infinitiv_correct', 'infinitiv_incorrect',
+            'presens_correct', 'presens_incorrect',
+            'imperativ_correct', 'imperativ_incorrect',
+            'preteritum_correct', 'preteritum_incorrect',
+            'perfekt_correct', 'perfekt_incorrect',
+            'pluskvamperfekt_correct', 'pluskvamperfekt_incorrect'
         ]
 
         for field in stat_fields:

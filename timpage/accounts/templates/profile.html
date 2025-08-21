@@ -6,13 +6,24 @@
     <h1>{{ user.username }}</h1>
     <h1>Performance Stats</h2>
     <h2>Total Questions Answered: {{ user.total_answered }}</h2>
-    <h3>Performance by Question Type</h3>
+    <h3>Substantiv</h3>
     <ul>
+        <li>Totalt besvarade substantiv: {{ user.total_substantiv_answered }}</li>
         <li>Engelska: {{ user.engelska_correct }} correct, {{ user.engelska_incorrect }} incorrect</li>
         <li>Obestämt Singular: {{ user.obestamt_singular_correct }} correct, {{ user.obestamt_singular_incorrect }} incorrect</li>
         <li>Bestämt Singular: {{ user.bestamt_singular_correct }} correct, {{ user.bestamt_singular_incorrect }} incorrect</li>
         <li>Obestämt Plural: {{ user.obestamt_plural_correct }} correct, {{ user.obestamt_plural_incorrect }} incorrect</li>
         <li>Bestämt Plural: {{ user.bestamt_plural_correct }} correct, {{ user.bestamt_plural_incorrect }} incorrect</li>
+    </ul>
+    <h3>Verb</h3>
+    <ul>
+        <li>Totalt besvarade verb: {{ user.total_verb_answered }}</li>
+        <li>Infinitiv: {{ user.infinitiv_correct|default:0 }} correct, {{ user.infinitiv_incorrect|default:0 }} incorrect</li>
+        <li>Presens: {{ user.presens_correct }} correct, {{ user.presens_incorrect }} incorrect</li>
+        <li>Imperativ: {{ user.imperativ_correct }} correct, {{ user.imperativ_incorrect }} incorrect</li>
+        <li>Preteritum: {{ user.preteritum_correct }} correct, {{ user.preteritum_incorrect }} incorrect</li>
+        <li>Perfekt: {{ user.perfekt_correct }} correct, {{ user.perfekt_incorrect }} incorrect</li>
+        <li>Pluskvamperfekt: {{ user.pluskvamperfekt_correct }} correct, {{ user.pluskvamperfekt_incorrect }} incorrect</li>
     </ul>
     <form method="post" action="{% url 'reset_stats' %}" onsubmit="return confirm('Are you sure you want to reset all your statistics? This action cannot be undone.');">
         {% csrf_token %}

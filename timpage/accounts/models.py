@@ -68,18 +68,24 @@ class CustomUser(AbstractUser):
 
     
     def update_record(self, result, field):
+        # Normalize to ensure both raw field names and *_result are accepted
+        normalized_field = field.replace('_result', '')
         field_mapping = {
-            'engelska_result': ('engelska_correct', 'engelska_incorrect'),
-            'infinitiv_result': ('infinitiv_correct', 'infinitiv_incorrect'),
-            'presens_result': ('presens_correct', 'presens_incorrect'),
-            'imperativ_result': ('imperativ_correct', 'imperativ_incorrect'),
-            'preteritum_result': ('preteritum_correct', 'preteritum_incorrect'),
-            'perfekt_result': ('perfekt_correct', 'perfekt_incorrect'),
-            'pluskvamperfekt_result': ('pluskvamperfekt_correct', 'pluskvamperfekt_incorrect')
+            'engelska': ('engelska_correct', 'engelska_incorrect'),
+            'obestamt_singular': ('obestamt_singular_correct', 'obestamt_singular_incorrect'),
+            'bestamt_singular': ('bestamt_singular_correct', 'bestamt_singular_incorrect'),
+            'obestamt_plural': ('obestamt_plural_correct', 'obestamt_plural_incorrect'),
+            'bestamt_plural': ('bestamt_plural_correct', 'bestamt_plural_incorrect'),
+            'infinitiv': ('infinitiv_correct', 'infinitiv_incorrect'),
+            'presens': ('presens_correct', 'presens_incorrect'),
+            'imperativ': ('imperativ_correct', 'imperativ_incorrect'),
+            'preteritum': ('preteritum_correct', 'preteritum_incorrect'),
+            'perfekt': ('perfekt_correct', 'perfekt_incorrect'),
+            'pluskvamperfekt': ('pluskvamperfekt_correct', 'pluskvamperfekt_incorrect')
         }
         print(f'field: {field}')
-        if field in field_mapping:
-            correct_field, incorrect_field = field_mapping[field]
+        if normalized_field in field_mapping:
+            correct_field, incorrect_field = field_mapping[normalized_field]
             if result:
                 setattr(self, correct_field, getattr(self, correct_field) + 1)
                 print(f'cheese {field:}: {getattr(self, correct_field)}')

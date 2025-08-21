@@ -82,8 +82,6 @@ def substantiv_results_view(request):
                 'incorrect': {field: 0 for field in ['engelska', 'obestamt_singular', 'bestamt_singular', 'obestamt_plural', 'bestamt_plural']}
             }
         
-        user.update_total(word)
-
         for field, result in results.items():
             field_name = field.replace('_result', '')
 
@@ -94,6 +92,7 @@ def substantiv_results_view(request):
             else:
                 request.session['game_stats']['incorrect'][field_name] += 1
         
+        user.update_total(word)
         user.save()
         
         request.session.modified = True
@@ -202,8 +201,6 @@ def verb_results_view(request):
                 'correct': {field: 0 for field in ['engelska', 'infinitiv', 'presens', 'imperativ', 'preteritum', 'perfekt', 'pluskvamperfekt']},
                 'incorrect': {field: 0 for field in ['engelska', 'infinitiv', 'presens', 'imperativ', 'preteritum', 'perfekt', 'pluskvamperfekt']}
             }
-        
-        user.update_total(word)
 
         for field, result in results.items():
             field_name = field.replace('_result', '')
@@ -215,6 +212,7 @@ def verb_results_view(request):
             else:
                 request.session['game_stats']['incorrect'][field_name] += 1
         
+        user.update_total(word)
         user.save()
         
         request.session.modified = True
