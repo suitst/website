@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Substantiv, Verb
 import random
+import unicodedata
 
 
 @login_required
@@ -54,6 +55,13 @@ def substantiv_results_view(request):
         print(category)
         word_number = request.session.get('current_word_num')
         word = Substantiv.objects.get(number=word_number)
+        
+        def normalize_text(value):
+            if value is None:
+                return ''
+            normalized = unicodedata.normalize('NFC', value)
+            collapsed_spaces = ' '.join(normalized.split())
+            return collapsed_spaces.casefold()
         answers = {
             'engelska': request.POST.get('engelska'),
             'obestamt_singular': request.POST.get('obestamt_singular'),
@@ -62,11 +70,11 @@ def substantiv_results_view(request):
             'bestamt_plural': request.POST.get('bestamt_plural'),
         }
         results = {
-            'engelska_result': word.engelska == answers['engelska'],
-            'obestamt_singular_result': word.obestamt_singular == answers['obestamt_singular'],
-            'bestamt_singular_result': word.bestamt_singular == answers['bestamt_singular'],
-            'obestamt_plural_result': word.obestamt_plural == answers['obestamt_plural'],
-            'bestamt_plural_result': word.bestamt_plural == answers['bestamt_plural'],
+            'engelska_result': normalize_text(word.engelska) == normalize_text(answers['engelska']),
+            'obestamt_singular_result': normalize_text(word.obestamt_singular) == normalize_text(answers['obestamt_singular']),
+            'bestamt_singular_result': normalize_text(word.bestamt_singular) == normalize_text(answers['bestamt_singular']),
+            'obestamt_plural_result': normalize_text(word.obestamt_plural) == normalize_text(answers['obestamt_plural']),
+            'bestamt_plural_result': normalize_text(word.bestamt_plural) == normalize_text(answers['bestamt_plural']),
         }
         if 'game_stats' not in request.session:
             request.session['game_stats'] = {
@@ -79,7 +87,7 @@ def substantiv_results_view(request):
         for field, result in results.items():
             field_name = field.replace('_result', '')
 
-            user.update_record(result, field)
+            user.update_record(result, field_name)
 
             if result:
                 request.session['game_stats']['correct'][field_name] += 1
@@ -89,6 +97,7 @@ def substantiv_results_view(request):
         user.save()
         
         request.session.modified = True
+        print(answers)
         print(request.session['game_stats'])
         return render(request, 'substantiv_results.html', {'word': word, 
                                                            'answers': answers, 
@@ -163,6 +172,13 @@ def verb_results_view(request):
         user = request.user
         word_number = request.session.get('current_word_num')
         word = Verb.objects.get(number=word_number)
+        
+        def normalize_text(value):
+            if value is None:
+                return ''
+            normalized = unicodedata.normalize('NFC', value)
+            collapsed_spaces = ' '.join(normalized.split())
+            return collapsed_spaces.casefold()
         answers = {
             'engelska': request.POST.get('engelska'),
             'infinitiv': request.POST.get('infinitiv'),
@@ -173,13 +189,13 @@ def verb_results_view(request):
             'pluskvamperfekt': request.POST.get('pluskvamperfekt')
         }
         results = {
-            'engelska_result': word.engelska == answers['engelska'],
-            'infinitiv_result': word.infinitiv == answers['infinitiv'],
-            'presens_result': word.presens == answers['presens'],
-            'imperativ_result': word.imperativ == answers['imperativ'],
-            'preteritum_result': word.preteritum == answers['preteritum'],
-            'perfekt_result': word.perfekt == answers['perfekt'],
-            'pluskvamperfekt_result': word.pluskvamperfekt == answers['pluskvamperfekt']
+            'engelska_result': normalize_text(word.engelska) == normalize_text(answers['engelska']),
+            'infinitiv_result': normalize_text(word.infinitiv) == normalize_text(answers['infinitiv']),
+            'presens_result': normalize_text(word.presens) == normalize_text(answers['presens']),
+            'imperativ_result': normalize_text(word.imperativ) == normalize_text(answers['imperativ']),
+            'preteritum_result': normalize_text(word.preteritum) == normalize_text(answers['preteritum']),
+            'perfekt_result': normalize_text(word.perfekt) == normalize_text(answers['perfekt']),
+            'pluskvamperfekt_result': normalize_text(word.pluskvamperfekt) == normalize_text(answers['pluskvamperfekt'])
         }
         if 'game_stats' not in request.session:
             request.session['game_stats'] = {
@@ -192,7 +208,7 @@ def verb_results_view(request):
         for field, result in results.items():
             field_name = field.replace('_result', '')
 
-            user.update_record(result, field)
+            user.update_record(result, field_name)
 
             if result:
                 request.session['game_stats']['correct'][field_name] += 1

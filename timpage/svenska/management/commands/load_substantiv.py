@@ -33,10 +33,10 @@ class Command(BaseCommand):
                 question.category = row['Category']
                 question.ord = row['Ord']
                 question.engelska = row['På Engelska']
-                question.obestämt_singular = row['Obestämt Singular']
-                question.bestämt_singular = row['Bestämt Singular']
-                question.obestämt_plural = row['Obestämt Plural']
-                question.betsämt_plural = row['Bestämt Plural']
+                question.obestamt_singular = row['Obestämt Singular']
+                question.bestamt_singular = row['Bestämt Singular']
+                question.obestamt_plural = row['Obestämt Plural']
+                question.bestamt_plural = row['Bestämt Plural']
                 question.save()
 
         print('Questions loaded')
