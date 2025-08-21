@@ -5,7 +5,7 @@
 <form method="post" action="{% url 'verb_results' %}">
     {% csrf_token %}
     <h1>Question {{word.number}}</h1>
-    <h2>Ord: {{ word.ord }}</h2>
+    <h2>Verb: {{ word.ord }}</h2>
     <p>På Engelska: <input type="text" name="engelska"></p>
     <p>Infinitiv: <input type="text" name="infinitiv"></p>
     <p>Presens: <input type="text" name="presens"></p>

@@ -63,10 +63,10 @@ def substantiv_results_view(request):
         }
         results = {
             'engelska_result': word.engelska == answers['engelska'],
-            'obestamt_singular_result': word.obestämt_singular == answers['obestamt_singular'],
-            'bestamt_singular_result': word.bestämt_singular == answers['bestamt_singular'],
-            'obestamt_plural_result': word.obestämt_plural == answers['obestamt_plural'],
-            'bestamt_plural_result': word.bestämt_plural == answers['bestamt_plural'],
+            'obestamt_singular_result': word.obestamt_singular == answers['obestamt_singular'],
+            'bestamt_singular_result': word.bestamt_singular == answers['bestamt_singular'],
+            'obestamt_plural_result': word.obestamt_plural == answers['obestamt_plural'],
+            'bestamt_plural_result': word.bestamt_plural == answers['bestamt_plural'],
         }
         if 'game_stats' not in request.session:
             request.session['game_stats'] = {
