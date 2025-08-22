@@ -2,18 +2,57 @@
 {% load static %}
 {% block content %}
 
-<form method="post" action="{% url 'verb_results' %}">
+<div class="page-primary">
+<form method="post" action="{% url 'verb_results' %}" autocomplete="off">
     {% csrf_token %}
-    <h1>Question {{word.number}}</h1>
-    <h2>Verb: {{ word.ord }}</h2>
-    <p>På Engelska: <input type="text" name="engelska"></p>
-    <p>Infinitiv: <input type="text" name="infinitiv"></p>
-    <p>Presens: <input type="text" name="presens"></p>
-    <p>Imperativ: <input type="text" name="imperativ"></p>
-    <p>Preteritum: <input type="text" name="preteritum"></p>
-    <p>Perfekt: <input type="text" name="perfekt"></p>
-    <p>Pluskvamperfekt: <input type="text" name="Pluskvamperfekt"></p>
-    <button type="submit">Submit</button>
+    <h1 class="text-center" style="color: var(--secondary-color);">Question {{word.number}}</h1>
+
+    <div class="card text-center" style="max-width: 700px; margin: 0 auto;">
+        <h2>Verb: {{ word.ord }}</h2>
+        <div class="card-body">
+            <div class="aligned-inputs">
+                <div class="aligned-row">
+                    <label for="engelska">På Engelska:</label>
+                    <input id="engelska" type="text" name="engelska" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                    <div></div>
+                </div>
+                <div class="aligned-row">
+                    <label for="infinitiv">Infinitiv:</label>
+                    <input id="infinitiv" type="text" name="infinitiv" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                    <div></div>
+                </div>
+                <div class="aligned-row">
+                    <label for="presens">Presens:</label>
+                    <input id="presens" type="text" name="presens" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                    <div></div>
+                </div>
+                <div class="aligned-row">
+                    <label for="imperativ">Imperativ:</label>
+                    <input id="imperativ" type="text" name="imperativ" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                    <div></div>
+                </div>
+                <div class="aligned-row">
+                    <label for="preteritum">Preteritum:</label>
+                    <input id="preteritum" type="text" name="preteritum" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                    <div></div>
+                </div>
+                <div class="aligned-row">
+                    <label for="perfekt">Perfekt:</label>
+                    <input id="perfekt" type="text" name="perfekt" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                    <div></div>
+                </div>
+                <div class="aligned-row">
+                    <label for="pluskvamperfekt">Pluskvamperfekt:</label>
+                    <input id="pluskvamperfekt" type="text" name="pluskvamperfekt" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                    <div></div>
+                </div>
+            </div>
+            <div class="mt-3"></div>
+            <button type="submit" class="btn btn-secondary">Submit</button>
+        </div>
+    </div>
+
 </form>
+</div>
 
 {% endblock %}

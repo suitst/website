@@ -5,6 +5,29 @@ import random
 import unicodedata
 
 
+def ensure_game_stats(request, required_fields):
+    """
+    Ensure request.session['game_stats'] exists and has zeroed counters
+    for all required_fields under both 'correct' and 'incorrect'.
+    If an incompatible structure is present, rebuild it.
+    """
+    base = {
+        'correct': {field: 0 for field in required_fields},
+        'incorrect': {field: 0 for field in required_fields},
+    }
+    stats = request.session.get('game_stats')
+    if not isinstance(stats, dict) or 'correct' not in stats or 'incorrect' not in stats:
+        request.session['game_stats'] = base
+        return
+    # Merge missing fields, keep existing counts where present
+    for bucket in ['correct', 'incorrect']:
+        if not isinstance(stats.get(bucket), dict):
+            stats[bucket] = {}
+        for field in required_fields:
+            stats[bucket][field] = int(stats[bucket].get(field, 0))
+    request.session['game_stats'] = stats
+
+
 @login_required
 def game_start_view(request):
     categories = Substantiv.objects.values_list('category', flat=True).distinct()
@@ -76,11 +99,8 @@ def substantiv_results_view(request):
             'obestamt_plural_result': normalize_text(word.obestamt_plural) == normalize_text(answers['obestamt_plural']),
             'bestamt_plural_result': normalize_text(word.bestamt_plural) == normalize_text(answers['bestamt_plural']),
         }
-        if 'game_stats' not in request.session:
-            request.session['game_stats'] = {
-                'correct': {field: 0 for field in ['engelska', 'obestamt_singular', 'bestamt_singular', 'obestamt_plural', 'bestamt_plural']},
-                'incorrect': {field: 0 for field in ['engelska', 'obestamt_singular', 'bestamt_singular', 'obestamt_plural', 'bestamt_plural']}
-            }
+        substantiv_fields = ['engelska', 'obestamt_singular', 'bestamt_singular', 'obestamt_plural', 'bestamt_plural']
+        ensure_game_stats(request, substantiv_fields)
         
         for field, result in results.items():
             field_name = field.replace('_result', '')
@@ -196,11 +216,8 @@ def verb_results_view(request):
             'perfekt_result': normalize_text(word.perfekt) == normalize_text(answers['perfekt']),
             'pluskvamperfekt_result': normalize_text(word.pluskvamperfekt) == normalize_text(answers['pluskvamperfekt'])
         }
-        if 'game_stats' not in request.session:
-            request.session['game_stats'] = {
-                'correct': {field: 0 for field in ['engelska', 'infinitiv', 'presens', 'imperativ', 'preteritum', 'perfekt', 'pluskvamperfekt']},
-                'incorrect': {field: 0 for field in ['engelska', 'infinitiv', 'presens', 'imperativ', 'preteritum', 'perfekt', 'pluskvamperfekt']}
-            }
+        verb_fields = ['engelska', 'infinitiv', 'presens', 'imperativ', 'preteritum', 'perfekt', 'pluskvamperfekt']
+        ensure_game_stats(request, verb_fields)
 
         for field, result in results.items():
             field_name = field.replace('_result', '')

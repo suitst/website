@@ -3,17 +3,25 @@
 {% load custom_filters %}
 {% block content %}
 
-<h1>Game Summary</h1>
-<h2>Performance Breakdown</h2>
-    <ul>
-        {% for field in game_stats.correct.keys %}
-            <li>
-                {{ field|title }}:
-                {{ game_stats.percentages.correct|get_item:field|floatformat:2 }}% correct
-                ({{ game_stats.correct|get_item:field }} correct /
-                {{ game_stats.incorrect|get_item:field }} incorrect)
-            </li>
-        {% endfor %}
-    </ul>
+<div class="page-primary">
+    <div class="container py-5">
+        <div class="card text-center" style="max-width: 700px; margin: 0 auto;">
+            <div class="card-body">
+                <h1>Game Summary</h1>
+                <h2>Performance Breakdown</h2>
+                <ul>
+                    {% for field in game_stats.correct.keys %}
+                        <li>
+                            {{ field|title }}:
+                            {{ game_stats.percentages.correct|get_item:field|floatformat:2 }}% correct
+                            ({{ game_stats.correct|get_item:field }} correct /
+                            {{ game_stats.incorrect|get_item:field }} incorrect)
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

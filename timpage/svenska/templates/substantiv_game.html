@@ -2,20 +2,48 @@
 {% load static %}
 {% block content %}
 
-<form method="post" action="{% url 'substantiv_results' %}">
+<div class="page-primary">
+<form method="post" action="{% url 'substantiv_results' %}" autocomplete="off">
     {% csrf_token %}
-    <h1 class="text-center">Question {{word.number}}</h1>
-    <div class="card">
+    <h1 class="text-center" style="color: var(--secondary-color);">Question {{word.number}}</h1>
+    <div class="card text-center" style="max-width: 700px; margin: 0 auto;">
         <h2 class="card-title">Ord: {{ word.ord }}</h2>
-        <p>Kategori: {{ word.category }}</p>
+        <div class="text-center">
+            <p>Kategori: {{ word.category }}</p>
+        </div>
         <input type="hidden" name="category" value="{{ word.category }}">
-        <p>På Engelska: <input type="text" name="engelska"></p>
-        <p>Obestämt Singular: <input type="text" name="obestamt_singular"></p>
-        <p>Bestämt Singular: <input type="text" name="bestamt_singular"></p>
-        <p>Obestämt Plural: <input type="text" name="obestamt_plural"></p>
-        <p>Bestämt Plural: <input type="text" name="bestamt_plural"></p>
-        <button class="btn btn-secondary", type="submit">Submit</button>
+        <div class="aligned-inputs">
+            <div class="aligned-row">
+                <label for="engelska">På Engelska:</label>
+                <input id="engelska" type="text" name="engelska" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                <div></div>
+            </div>
+            <div class="aligned-row">
+                <label for="obestamt_singular">Obestämt Singular:</label>
+                <input id="obestamt_singular" type="text" name="obestamt_singular" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                <div></div>
+            </div>
+            <div class="aligned-row">
+                <label for="bestamt_singular">Bestämt Singular:</label>
+                <input id="bestamt_singular" type="text" name="bestamt_singular" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                <div></div>
+            </div>
+            <div class="aligned-row">
+                <label for="obestamt_plural">Obestämt Plural:</label>
+                <input id="obestamt_plural" type="text" name="obestamt_plural" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                <div></div>
+            </div>
+            <div class="aligned-row">
+                <label for="bestamt_plural">Bestämt Plural:</label>
+                <input id="bestamt_plural" type="text" name="bestamt_plural" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+                <div></div>
+            </div>
+        </div>
+        <div class="mt-3"></div>
+        <button class="btn btn-secondary" type="submit">Submit</button>
     </div>
+    
 </form>
+</div>
 
 {% endblock %}

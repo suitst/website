@@ -2,24 +2,60 @@
 {% load static %}
 {% block content %}
 
-<h1>Results</h1>
-<p>Ord: {{ word.ord }}</p>
-<p>På Engelska: {{ answers.engelska }} {% if results.engelska_result %}✅{% else %}❌{{ word.engelska }}{% endif %}</p>
-<p>Infinitiv: {{ answers.infinitiv }} {% if results.infinitiv_result %}✅{% else %}❌{{ word.infinitiv }}{% endif %}</p>
-<p>Presens: {{ answers.presens }} {% if results.presens_result %}✅{% else %}❌{{ word.presens }}{% endif %}</p>
-<p>Imperativ: {{ answers.imperativ }} {% if results.imperativ_result %}✅{% else %}❌{{ word.imperativ }}{% endif %}</p>
-<p>Preteritum: {{ answers.preteritum }} {% if results.preteritum_result %}✅{% else %}❌{{ word.preteritum }}{% endif %}</p>
-<p>Perfekt: {{ answers.perfekt }} {% if results.perfekt_result %}✅{% else %}❌{{ word.perfekt }}{% endif %}</p>
-<p>Pluskvamperfekt: {{ answers.pluskvamperfekt }} {% if results.pluskvamperfekt_result %}✅{% else %}❌{{ word.pluskvamperfekt }}{% endif %}</p>
-
-<form method="post" action="{% url 'verb_game' %}">
-    {% csrf_token %}
-    <button type="submit">Next Question</button>
-</form>
-
-<form method="post" action="{% url 'verb_summary' %}">
-    {% csrf_token %}
-    <button type="submit">Quit</button>
-</form>
+<div class="page-primary">
+    <h1 class="text-center" style="color: var(--secondary-color);">Question {{word.number}}</h1>
+<div class="card text-center" style="max-width: 700px; margin: 0 auto;">
+    <h2 class="card-title">Ord: {{ word.ord }}</h2>
+    <div class="aligned-inputs">
+        <div class="aligned-row">
+            <label>På Engelska:</label>
+            <span class="fake-input {% if results.engelska_result %}correct{% else %}incorrect{% endif %}">{{ answers.engelska }}</span>
+            {% if not results.engelska_result %}<span class="answer-key">→ {{ word.engelska }}</span>{% else %}<div></div>{% endif %}
+        </div>
+        <div class="aligned-row">
+            <label>Infinitiv:</label>
+            <span class="fake-input {% if results.infinitiv_result %}correct{% else %}incorrect{% endif %}">{{ answers.infinitiv }}</span>
+            {% if not results.infinitiv_result %}<span class="answer-key">→ {{ word.infinitiv }}</span>{% else %}<div></div>{% endif %}
+        </div>
+        <div class="aligned-row">
+            <label>Presens:</label>
+            <span class="fake-input {% if results.presens_result %}correct{% else %}incorrect{% endif %}">{{ answers.presens }}</span>
+            {% if not results.presens_result %}<span class="answer-key">→ {{ word.presens }}</span>{% else %}<div></div>{% endif %}
+        </div>
+        <div class="aligned-row">
+            <label>Imperativ:</label>
+            <span class="fake-input {% if results.imperativ_result %}correct{% else %}incorrect{% endif %}">{{ answers.imperativ }}</span>
+            {% if not results.imperativ_result %}<span class="answer-key">→ {{ word.imperativ }}</span>{% else %}<div></div>{% endif %}
+        </div>
+        <div class="aligned-row">
+            <label>Preteritum:</label>
+            <span class="fake-input {% if results.preteritum_result %}correct{% else %}incorrect{% endif %}">{{ answers.preteritum }}</span>
+            {% if not results.preteritum_result %}<span class="answer-key">→ {{ word.preteritum }}</span>{% else %}<div></div>{% endif %}
+        </div>
+        <div class="aligned-row">
+            <label>Perfekt:</label>
+            <span class="fake-input {% if results.perfekt_result %}correct{% else %}incorrect{% endif %}">{{ answers.perfekt }}</span>
+            {% if not results.perfekt_result %}<span class="answer-key">→ {{ word.perfekt }}</span>{% else %}<div></div>{% endif %}
+        </div>
+        <div class="aligned-row">
+            <label>Pluskvamperfekt:</label>
+            <span class="fake-input {% if results.pluskvamperfekt_result %}correct{% else %}incorrect{% endif %}">{{ answers.pluskvamperfekt }}</span>
+            {% if not results.pluskvamperfekt_result %}<span class="answer-key">→ {{ word.pluskvamperfekt }}</span>{% else %}<div></div>{% endif %}
+        </div>
+    </div>
+    <div class="mt-3"></div>
+    
+    <form method="post" action="{% url 'verb_game' %}">
+        {% csrf_token %}
+        <button class="btn btn-secondary" type="submit">Next Question</button>
+    </form>
+    
+    <form method="post" action="{% url 'verb_summary' %}">
+        {% csrf_token %}
+        <button type="submit">Quit</button>
+    </form>
+    
+</div>
+</div>
 
 {% endblock %}

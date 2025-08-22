@@ -2,24 +2,51 @@
 {% load static %}
 {% block content %}
 
-<div class="card">
-    <h1 class="text-center">Results</h1>
-    <p>Ord: {{ word.ord }}</p>
-    <p>På Engelska: {{ answers.engelska }} {% if results.engelska_result %}✅{% else %}❌{{ word.engelska }}{% endif %}</p>
-    <p>Obestämt Singular: {{ answers.obestamt_singular }} {% if results.obestamt_singular_result %}✅{% else %}❌ {{ word.obestamt_singular }}{% endif %}</p>
-    <p>Bestämt Singular: {{ answers.bestamt_singular }} {% if results.bestamt_singular_result %}✅{% else %}❌ {{ word.bestamt_singular }}{% endif %}</p>
-    <p>Obestämt Plural: {{ answers.obestamt_plural }} {% if results.obestamt_plural_result %}✅{% else %}❌ {{ word.obestamt_plural }}{% endif %}</p>
-    <p>Bestämt Plural: {{ answers.bestamt_plural }} {% if results.bestamt_plural_result %}✅{% else %}❌ {{ word.bestamt_plural }}{% endif %}</p>
-</div>
-<form method="post" action="{% url 'substantiv_game' %}">
-    {% csrf_token %}
-    <input type="hidden" name="category" value="{{ category }}">
-    <button class="btn btn-secondary", type="submit">Next Question</button>
-</form>
+<div class="page-primary">
+    <h1 class="text-center" style="color: var(--secondary-color);">Question {{word.number}}</h1>
+<div class="card text-center" style="max-width: 700px; margin: 0 auto;">
+    <h2 class="card-title">Ord: {{ word.ord }}</h2>
+    <div class="aligned-inputs">
+        <div class="aligned-row">
+            <label>På Engelska:</label>
+            <span class="fake-input {% if results.engelska_result %}correct{% else %}incorrect{% endif %}">{{ answers.engelska }}</span>
+            {% if not results.engelska_result %}<span class="answer-key">→ {{ word.engelska }}</span>{% else %}<div></div>{% endif %}
+        </div>
+        <div class="aligned-row">
+            <label>Obestämt Singular:</label>
+            <span class="fake-input {% if results.obestamt_singular_result %}correct{% else %}incorrect{% endif %}">{{ answers.obestamt_singular }}</span>
+            {% if not results.obestamt_singular_result %}<span class="answer-key">→ {{ word.obestamt_singular }}</span>{% else %}<div></div>{% endif %}
+        </div>
+        <div class="aligned-row">
+            <label>Bestämt Singular:</label>
+            <span class="fake-input {% if results.bestamt_singular_result %}correct{% else %}incorrect{% endif %}">{{ answers.bestamt_singular }}</span>
+            {% if not results.bestamt_singular_result %}<span class="answer-key">→ {{ word.bestamt_singular }}</span>{% else %}<div></div>{% endif %}
+        </div>
+        <div class="aligned-row">
+            <label>Obestämt Plural:</label>
+            <span class="fake-input {% if results.obestamt_plural_result %}correct{% else %}incorrect{% endif %}">{{ answers.obestamt_plural }}</span>
+            {% if not results.obestamt_plural_result %}<span class="answer-key">→ {{ word.obestamt_plural }}</span>{% else %}<div></div>{% endif %}
+        </div>
+        <div class="aligned-row">
+            <label>Bestämt Plural:</label>
+            <span class="fake-input {% if results.bestamt_plural_result %}correct{% else %}incorrect{% endif %}">{{ answers.bestamt_plural }}</span>
+            {% if not results.bestamt_plural_result %}<span class="answer-key">→ {{ word.bestamt_plural }}</span>{% else %}<div></div>{% endif %}
+        </div>
+    </div>
+    <div class="mt-3"></div>
 
-<form method="post" action="{% url 'substantiv_summary' %}">
-    {% csrf_token %}
-    <button type="submit">Quit</button>
-</form>
+    <form method="post" action="{% url 'substantiv_game' %}">
+        {% csrf_token %}
+        <input type="hidden" name="category" value="{{ category }}">
+        <button class="btn btn-secondary", type="submit">Next Question</button>
+    </form>
+
+    <form method="post" action="{% url 'substantiv_summary' %}">
+        {% csrf_token %}
+        <button type="submit">Quit</button>
+    </form>
+    
+</div>
+</div>
 
 {% endblock %}

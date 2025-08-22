@@ -228,7 +228,6 @@ textarea.form-control {
 
 .card:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transform: translateY(-5px);
 }
 
 .card-title {
@@ -239,6 +238,10 @@ textarea.form-control {
 /* Utility Classes */
 .text-center {
   text-align: center;
+}
+
+.text-left {
+  text-align: left;
 }
 
 .mt-1 { margin-top: 0.5rem; }
@@ -304,4 +307,75 @@ textarea.form-control {
 
 .fade-in {
   animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Page Background Variants */
+.page-primary {
+  background: var(--primary-color);
+  color: white;
+  padding: 2rem 0;
+}
+
+.page-primary .card {
+  background-color: #ffffff;
+  color: var(--text-color);
+}
+
+.page-primary .card .card-title {
+  color: var(--dark-color);
+}
+
+/* Aligned input grid: labels flow left, inputs centered */
+.aligned-inputs {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  row-gap: 0.5rem;
+}
+
+.aligned-row {
+  display: contents;
+}
+
+.aligned-row label {
+  justify-self: end;
+  text-align: right;
+  padding-right: 0.5rem;
+}
+
+.aligned-row input[type="text"] {
+  justify-self: center;
+  display: inline-block;
+  width: 260px;
+  max-width: 80vw;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--medium-color);
+  border-radius: var(--border-radius);
+  background-color: #ffffff;
+  color: var(--text-color);
+}
+
+/* Fake input for read-only result display */
+.fake-input {
+  justify-self: center;
+  display: inline-block;
+  width: 260px;
+  max-width: 80vw;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--medium-color);
+  border-radius: var(--border-radius);
+  background-color: #ffffff;
+  color: var(--text-color);
+}
+
+.fake-input.correct {
+  border-color: #2ecc71;
+}
+
+.fake-input.incorrect {
+  border-color: #e74c3c;
+}
+
+.answer-key {
+  margin-left: 0.5rem;
+  color: var(--text-light);
 }
