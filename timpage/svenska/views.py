@@ -28,10 +28,11 @@ def ensure_game_stats(request, required_fields):
     request.session['game_stats'] = stats
 
 
-@login_required
 def game_start_view(request):
     categories = Substantiv.objects.values_list('category', flat=True).distinct()
     if request.method == 'POST':
+        # set guest flag for this session
+        request.session['is_guest'] = bool(request.POST.get('is_guest'))
         if 'game_stats' not in request.session:
                 request.session['game_stats'] = {
                     'correct': {
@@ -53,12 +54,22 @@ def game_start_view(request):
     return render(request, 'game_start.html', {'categories': categories})
 
 
-@login_required
 def substantiv_game_view(request):
     if request.method == 'POST':
+        # capture guest mode if chosen here
+        if request.POST.get('is_guest'):
+            request.session['is_guest'] = True
         category = request.POST.get('category', request.session.get('category', 'all'))
         request.session['category'] = category
         print(category)
+        # gate: must be authenticated or choose guest
+        if not (request.user.is_authenticated or request.session.get('is_guest', False)):
+            return render(request, 'choose_mode.html', {
+                'post_action': 'substantiv_game',
+                'hidden_fields': {'category': category, 'is_guest': '1'},
+                'login_next': 'game_start',
+                'title': 'Starta Substantiv Spel'
+            })
         if category == 'all':
             words = Substantiv.objects.all()
         else:
@@ -70,7 +81,6 @@ def substantiv_game_view(request):
         return redirect('substantiv_game')
 
 
-@login_required
 def substantiv_results_view(request):
     if request.method == 'POST':
         user = request.user
@@ -105,15 +115,18 @@ def substantiv_results_view(request):
         for field, result in results.items():
             field_name = field.replace('_result', '')
 
-            user.update_record(result, field_name)
+            # Only update profile stats if not a guest and authenticated
+            if request.user.is_authenticated and not request.session.get('is_guest', False):
+                user.update_record(result, field_name)
 
             if result:
                 request.session['game_stats']['correct'][field_name] += 1
             else:
                 request.session['game_stats']['incorrect'][field_name] += 1
         
-        user.update_total(word)
-        user.save()
+        if request.user.is_authenticated and not request.session.get('is_guest', False):
+            user.update_total(word)
+            user.save()
         
         request.session.modified = True
         print(answers)
@@ -128,7 +141,6 @@ def substantiv_results_view(request):
         return redirect('substantiv_game')
     
 
-@login_required
 def substantiv_next_question_view(request):
     if request.method == 'POST':
         # Retrieve the category from the POST data
@@ -144,7 +156,6 @@ def substantiv_next_question_view(request):
     return redirect('game_start')
 
 
-@login_required
 def substantiv_quit_view(request):
     game_stats = request.session.get('game_stats', {})
 
@@ -176,16 +187,25 @@ def substantiv_quit_view(request):
     return render(request, 'substantiv_summary.html', {'game_stats': game_stats})
 
 
-@login_required
 def verb_game_view(request):
     if request.method == 'POST':
+        # capture guest mode if chosen here
+        if request.POST.get('is_guest'):
+            request.session['is_guest'] = True
+        # gate: must be authenticated or choose guest
+        if not (request.user.is_authenticated or request.session.get('is_guest', False)):
+            return render(request, 'choose_mode.html', {
+                'post_action': 'verb_game',
+                'hidden_fields': {},
+                'login_next': 'game_start',
+                'title': 'Starta Verb Spel'
+            })
         words = Verb.objects.all()
         word = random.choice(words)
         request.session['current_word_num'] = word.number
         return render(request, 'verb_game.html', {'word': word})
 
 
-@login_required
 def verb_results_view(request):
     if request.method == 'POST':
         user = request.user
@@ -222,15 +242,17 @@ def verb_results_view(request):
         for field, result in results.items():
             field_name = field.replace('_result', '')
 
-            user.update_record(result, field_name)
+            if request.user.is_authenticated and not request.session.get('is_guest', False):
+                user.update_record(result, field_name)
 
             if result:
                 request.session['game_stats']['correct'][field_name] += 1
             else:
                 request.session['game_stats']['incorrect'][field_name] += 1
         
-        user.update_total(word)
-        user.save()
+        if request.user.is_authenticated and not request.session.get('is_guest', False):
+            user.update_total(word)
+            user.save()
         
         request.session.modified = True
         print(request.session['game_stats'])
@@ -243,14 +265,12 @@ def verb_results_view(request):
         return redirect('verb_game')
     
 
-@login_required
 def verb_next_question_view(request):
     if request.method == 'POST':
         return redirect('substantiv_game')
     return redirect('game_start')
 
 
-@login_required
 def verb_quit_view(request):
     game_stats = request.session.get('game_stats', {})
 

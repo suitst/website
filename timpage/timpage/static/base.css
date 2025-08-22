@@ -131,8 +131,11 @@ nav a:hover {
 
 /* Buttons */
 .btn {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 1.2rem;
   border: none;
   border-radius: var(--border-radius);
   background-color: var(--primary-color);
@@ -140,11 +143,21 @@ nav a:hover {
   font-size: 1rem;
   cursor: pointer;
   transition: var(--transition);
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .btn:hover {
   background-color: var(--primary-hover);
   transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
 }
 
 .btn-secondary {
@@ -174,8 +187,11 @@ nav a:hover {
 }
 
 .nav-btn {
-    display: inline-block;
-    padding: 0.3rem 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    padding: 0 0.6rem;
     border: none;
     border-radius: var(--border-radius);
     color: var(--text-color);
@@ -183,6 +199,8 @@ nav a:hover {
     background-color: var(--medium-color);
     cursor: pointer;
     transition: var(--transition);
+    white-space: nowrap;
+    box-sizing: border-box;
 }
 
 /* Forms */
