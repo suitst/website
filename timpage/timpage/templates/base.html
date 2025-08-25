@@ -14,6 +14,12 @@
                     <a href="/">
                         <button class=nav-btn>Home</button>
                     </a>
+                    <a href="{% url 'cv' %}">
+                        <button class=nav-btn>CV</button>
+                    </a>
+                    <a href="{% url 'gallery' %}">
+                        <button class=nav-btn>Gallery</button>
+                    </a>
                     <a href="{% url 'game_start' %}">
                         <button class=nav-btn>Öva din svenska</button>
                     </a>
@@ -27,9 +33,6 @@
                         <a href="{% url 'login' %}"><button class=nav-btn>Login</button></a>
                         <a href="{% url 'signup' %}"><button class=nav-btn>Sign Up</button></a>
                     {% endif %}
-                    <a href="{% url 'cv' %}">
-                        <button class=nav-btn>About Me</button>
-                    </a>
                 </nav>                   
         </header>
         <main>

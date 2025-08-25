@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="page-primary">
+    <div class="container py-5">
+        <h1 class="text-center mb-5">Photo Gallery</h1>
+        
+        {% load static %}
+
+<div class="photo-grid">
+    <!-- Sample photo items - you can add more or modify these -->
+    <div class="photo-item" onclick="openFullscreen(this)">
+        <img src="{% static 'gallery/california_poppies.jpg' %}" alt="Sample Photo 1">
+        <div class="photo-caption">
+            <h3>Title</h3>
+            <p>Location: </p>
+            <p>Date: </p>
+            <p>Camera: Canon AE-1</p>
+            <p>Film: </p>
+            <p>Lens: 50 mm f/1.8</p>
+            <p>Aperture: </p>
+            <p>Shutter Speed: </p>
+        </div>
+    </div>
+
+    <div class="photo-item" onclick="openFullscreen(this)">
+        <img src="{% static 'gallery/pastel_pink.jpg' %}" alt="Sample Photo 2">
+        <div class="photo-caption">
+            <h3>Title</h3>
+            <p>Location: </p>
+            <p>Date: </p>
+            <p>Camera: Canon AE-1</p>
+            <p>Film: </p>
+            <p>Lens: 50 mm f/1.8</p>
+            <p>Aperture: </p>
+            <p>Shutter Speed: </p>
+        </div>
+    </div>
+
+    <div class="photo-item" onclick="openFullscreen(this)">
+        <img src="{% static 'gallery/sea_lavender.jpg' %}" alt="Sample Photo 3">
+        <div class="photo-caption">
+            <h3>Title</h3>
+            <p>Location: </p>
+            <p>Date: </p>
+            <p>Camera: Canon AE-1</p>
+            <p>Film: </p>
+            <p>Lens: 50 mm f/1.8</p>
+            <p>Aperture: </p>
+            <p>Shutter Speed: </p>
+        </div>
+    </div>
+
+    <div class="photo-item" onclick="openFullscreen(this)">
+        <img src="{% static 'gallery/coastal_wildflowers.jpg' %}" alt="Sample Photo 4">
+        <div class="photo-caption">
+            <h3>Title</h3>
+            <p>Location: </p>
+            <p>Date: </p>
+            <p>Camera: Canon AE-1</p>
+            <p>Film: </p>
+            <p>Lens: 50 mm f/1.8</p>
+            <p>Aperture: </p>
+            <p>Shutter Speed: </p>
+        </div>
+    </div>
+
+    <div class="photo-item" onclick="openFullscreen(this)">
+        <img src="{% static 'gallery/pebbles.jpg' %}" alt="Sample Photo 5">
+        <div class="photo-caption">
+            <h3>Title</h3>
+            <p>Location: </p>
+            <p>Date: </p>
+            <p>Camera: Canon AE-1</p>
+            <p>Film: </p>
+            <p>Lens: 50 mm f/1.8</p>
+            <p>Aperture: </p>
+            <p>Shutter Speed: </p>
+        </div>
+    </div>
+
+    <div class="photo-item" onclick="openFullscreen(this)">
+        <img src="{% static 'gallery/sandstone_coast.jpg' %}" alt="Sample Photo 6">
+        <div class="photo-caption">
+            <h3>Title</h3>
+            <p>Location: </p>
+            <p>Date: </p>
+            <p>Camera: Canon AE-1</p>
+            <p>Film: </p>
+            <p>Lens: 50 mm f/1.8</p>
+            <p>Aperture: </p>
+            <p>Shutter Speed: </p>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5">
+    <a href="{% url 'home' %}">
+        <button class="btn btn-secondary">Back to Home</button>
+    </a>
+</div>
+
+
+<!-- Fullscreen Modal -->
+<div id="fullscreenModal" class="fullscreen-modal">
+    <div class="fullscreen-content">
+        <button class="close-modal" onclick="closeFullscreen()">&times;</button>
+        <img id="fullscreenImage" class="fullscreen-image" src="" alt="">
+        <div class="fullscreen-caption">
+            <h3 id="fullscreenTitle"></h3>
+            <p id="fullscreenDescription"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+function openFullscreen(photoItem) {
+    const modal = document.getElementById('fullscreenModal');
+    const image = photoItem.querySelector('img');
+    const title = photoItem.querySelector('h3').textContent;
+    const description = photoItem.querySelector('p').textContent;
+    
+    document.getElementById('fullscreenImage').src = image.src;
+    document.getElementById('fullscreenImage').alt = image.alt;
+    document.getElementById('fullscreenTitle').textContent = title;
+    document.getElementById('fullscreenDescription').textContent = description;
+    
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeFullscreen() {
+    const modal = document.getElementById('fullscreenModal');
+    modal.classList.remove('show');
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside the image
+document.getElementById('fullscreenModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeFullscreen();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeFullscreen();
+    }
+});
+</script>
+
+{% endblock %}

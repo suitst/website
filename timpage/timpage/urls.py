@@ -24,5 +24,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path("", views.home, name='home'),
     path("cv/", views.cv, name='cv'),
+    path("gallery/", views.gallery, name='gallery'),
     path("svenska/", include("svenska.urls")),
 ]

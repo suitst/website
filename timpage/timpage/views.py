@@ -6,3 +6,6 @@ def home(request):
 
 def cv(request):
     return render(request, 'cv.html')
+
+def gallery(request):
+    return render(request, 'gallery.html')
